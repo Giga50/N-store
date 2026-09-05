@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microsoft | Магазин</title>
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #ffffff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #333333;
+      padding: 20px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+    a {
+      color: #0078d7;
+      text-decoration: none;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0 16px;
+      border-bottom: 1px solid #cccccc;
+      margin-bottom: 24px;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+    }
+    .logo strong {
+      font-weight: 600;
+      color: #0078d7;
+    }
+    .logo span {
+      font-weight: 300;
+      color: #333333;
+      margin-left: 4px;
+    }
+    .header-tagline {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #cccccc;
+    }
+    .tabs button {
+      background: transparent;
+      border: none;
+      padding: 10px 20px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #333333;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.15s, color 0.15s;
+      background: #f5f5f5;
+      border-radius: 2px 2px 0 0;
+      margin-bottom: -1px;
+    }
+    .tabs button:hover {
+      background: #eaeaea;
+    }
+    .tabs button.active {
+      border-bottom-color: #0078d7;
+      background: #ffffff;
+      color: #0078d7;
+      font-weight: 600;
+    }
+
+    /* Main grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 40px;
+      margin-top: 8px;
+    }
+    @media (max-width: 880px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    /* Catalog tiles */
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .product-tile {
+      background: #fafafa;
+      border: 1px solid #e5e5e5;
+      padding: 16px 14px 18px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 2px;
+      transition: box-shadow 0.1s;
+    }
+    .product-tile:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .product-image {
+      height: 90px;
+      background: #eef1f4;
+      border-radius: 2px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%236b7a8a"><rect x="25" y="35" width="50" height="40" rx="3"/><rect x="38" y="20" width="24" height="18" rx="2"/><circle cx="42" cy="58" r="5"/><circle cx="58" cy="58" r="5"/></svg>');
+      background-size: 45%;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: #eef1f4;
+    }
+    .product-tile h4 {
+      font-weight: 500;
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+    .product-tile .price {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin: 6px 0 10px;
+    }
+    .product-tile select {
+      width: 100%;
+      padding: 6px 8px;
+      margin-bottom: 10px;
+      border: 1px solid #cccccc;
+      border-radius: 2px;
+      font-family: inherit;
+      font-size: 0.75rem;
+      background: #fff;
+      color: #333;
+      cursor: pointer;
+    }
+    .product-tile select:focus {
+      border-color: #0078d7;
+      outline: none;
+    }
+    .product-tile button {
+      background: #0078d7;
+      border: none;
+      color: #fff;
+      padding: 8px 0;
+      border-radius: 2px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      width: 100%;
+      margin-top: auto;
+    }
+    .product-tile button:hover {
+      background: #005a9e;
+    }
+
+    /* Cart sidebar */
+    .cart-sidebar {
+      background: #f7f7f7;
+      border: 1px solid #e0e0e0;
+      padding: 18px 18px 20px;
+      border-radius: 2px;
+    }
+    .cart-sidebar h2 {
+      font-weight: 400;
+      font-size: 1.4rem;
+      border-bottom: 1px solid #cccccc;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e5e5;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+    .cart-item .info {
+      flex: 1;
+    }
+    .cart-item .info .title {
+      font-weight: 500;
+    }
+    .cart-item .info .variant {
+      font-size: 0.75rem;
+      color: #555;
+    }
+    .cart-item .controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .cart-item .controls button {
+      background: #e5e5e5;
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 2px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #333;
+      transition: background 0.1s;
+    }
+    .cart-item .controls button:hover {
+      background: #cccccc;
+    }
+    .cart-item .controls .qty {
+      min-width: 22px;
+      text-align: center;
+      font-weight: 500;
+    }
+    .cart-item .remove-btn {
+      background: none;
+      border: none;
+      color: #e81123;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0 4px;
+      font-weight: 600;
+    }
+    .cart-item .remove-btn:hover {
+      color: #a80000;
+    }
+    .cart-total {
+      margin: 16px 0 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-align: right;
+    }
+    .promo-area {
+      display: flex;
+      gap: 6px;
+      margin: 12px 0 8px;
+    }
+    .promo-area input {
+      flex: 1;
+      padding: 8px 10px;
+      border: 1px solid #cccccc;
+      border-radius: 2px;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+    .promo-area button {
+      background: #0078d7;
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 2px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: 0.9rem;
+    }
+    .promo-area button:hover {
+      background: #005a9e;
+    }
+    .promo-message {
+      font-size: 0.85rem;
+      margin: 4px 0 10px;
+      color: #107c10;
+    }
+    .promo-message.error {
+      color: #e81123;
+    }
+
+    /* Checkout form */
+    .checkout-form {
+      margin-top: 18px;
+      border-top: 1px solid #d0d0d0;
+      padding-top: 16px;
+    }
+    .checkout-form h3 {
+      font-weight: 400;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+    .checkout-form .field {
+      margin-bottom: 12px;
+    }
+    .checkout-form label {
+      display: block;
+      font-weight: 500;
+      font-size: 0.85rem;
+      margin-bottom: 2px;
+    }
+    .checkout-form input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #cccccc;
+      border-radius: 2px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border 0.15s;
+    }
+    .checkout-form input:focus {
+      border-color: #0078d7;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0,120,215,0.12);
+    }
+    .checkout-form input.error {
+      border: 2px solid #e81123;
+    }
+    .checkout-form .radio-group {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin: 4px 0 10px;
+    }
+    .checkout-form .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 400;
+    }
+    .btn-order {
+      background: #0078d7;
+      border: none;
+      color: #fff;
+      padding: 12px 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      width: 100%;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 6px;
+    }
+    .btn-order:hover {
+      background: #005a9e;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(1px);
+    }
+    .modal-overlay.show {
+      display: flex;
+    }
+    .modal-box {
+      background: #ffffff;
+      max-width: 440px;
+      width: 90%;
+      padding: 30px 28px 28px;
+      border-radius: 2px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.96); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .modal-box h2 {
+      font-weight: 400;
+      color: #0078d7;
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+    }
+    .modal-box .order-id {
+      background: #eef4fa;
+      padding: 12px 14px;
+      margin: 16px 0 18px;
+      border-left: 4px solid #0078d7;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+    .modal-box .close-btn {
+      background: #0078d7;
+      border: none;
+      color: #fff;
+      padding: 10px 28px;
+      border-radius: 2px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.15s;
+    }
+    .modal-box .close-btn:hover {
+      background: #005a9e;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #6b6b6b;
+      border-top: 1px solid #e5e5e5;
+      padding-top: 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo"><strong>Microsoft</strong><span>| Магазин</span></div>
+    <div class="header-tagline"></div>
+  </header>
+
+  <!-- TABS -->
+  <div class="tabs" id="tabContainer">
+    <button class="active" data-tab="smartphones">Смартфоны</button>
+    <button data-tab="tablets">Планшеты и Ноутбуки</button>
+    <button data-tab="office">Офис</button>
+    <button data-tab="accessories">Аксессуары</button>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+    <!-- CATALOG -->
+    <div id="catalogContainer" class="catalog-grid"></div>
+
+    <!-- CART + CHECKOUT -->
+    <div class="cart-sidebar">
+      <h2>Корзина <span id="cartCount">0</span></h2>
+      <div id="cartItemsList"></div>
+      <div class="cart-total" id="cartTotal">0 ₽</div>
+
+      <!-- Promo -->
+      <div class="promo-area">
+        <input type="text" id="promoInput" placeholder="Промокод" />
+        <button id="applyPromoBtn">Применить</button>
+      </div>
+      <div id="promoMessage" class="promo-message"></div>
+
+      <!-- Checkout form -->
+      <div class="checkout-form">
+        <h3>Оформление заказа</h3>
+        <div class="field">
+          <label>Имя и фамилия *</label>
+          <input type="text" id="orderName" placeholder="Анна Иванова" />
+        </div>
+        <div class="field">
+          <label>Телефон *</label>
+          <input type="tel" id="orderPhone" placeholder="+7 900 123-45-67" />
+        </div>
+        <div class="field">
+          <label>Email *</label>
+          <input type="email" id="orderEmail" placeholder="anna@example.com" />
+        </div>
+        <div class="field">
+          <label>Доставка</label>
+          <div class="radio-group">
+            <label><input type="radio" name="delivery" value="courier" checked> Курьерская (+350 ₽)</label>
+            <label><input type="radio" name="delivery" value="pickup"> Самовывоз (0 ₽)</label>
+          </div>
+        </div>
+        <button class="btn-order" id="orderBtn">Подтвердить заказ</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer">© 2016 Microsoft Store · Официальный магазин</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <h2>✅ Заказ оформлен</h2>
+    <p style="margin: 4px 0 8px;">Менеджер свяжется с вами.</p>
+    <div class="order-id" id="orderIdDisplay">Заказ №2016-XXXX</div>
+    <p id="modalTotal" style="margin-bottom: 18px; font-weight: 500;"></p>
+    <button class="close-btn" id="modalCloseBtn">Отлично</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ----- PRODUCT DATABASE (with variations) -----
+    const productDB = [
+      // Смартфоны
+      {
+        id: 'p1',
+        name: 'Microsoft Lumia 640',
+        category: 'smartphones',
+        variants: [
+          { label: 'Snapdragon 400 / 3G Dual SIM / 1GB RAM', price: 9990 },
+          { label: 'Snapdragon 400 / LTE 4G Single SIM / 1GB RAM', price: 11990 },
+          { label: 'Snapdragon 400 / LTE 4G Dual SIM / 1GB RAM', price: 12990 }
+        ]
+      },
+      {
+        id: 'p2',
+        name: 'Microsoft Lumia 640 XL',
+        category: 'smartphones',
+        variants: [
+          { label: 'Snapdragon 400 / 3G Dual SIM / 1GB RAM / Камера 13Мп', price: 13990 },
+          { label: 'Snapdragon 400 / LTE 4G Dual SIM / 1GB RAM / Камера 13Мп', price: 14990 }
+        ]
+      },
+      {
+        id: 'p3',
+        name: 'Microsoft Lumia 550',
+        category: 'smartphones',
+        variants: [
+          { label: 'Snapdragon 210 / LTE 4G / 1GB RAM', price: 9490 }
+        ]
+      },
+      {
+        id: 'p4',
+        name: 'Microsoft Lumia 950 XL',
+        category: 'smartphones',
+        variants: [
+          { label: 'Snapdragon 810 / LTE 4G Dual SIM / 3GB RAM / Жидкостное охлаждение', price: 49990 }
+        ]
+      },
+      {
+        id: 'p5',
+        name: 'Nokia Lumia 520',
+        category: 'smartphones',
+        variants: [
+          { label: 'Snapdragon S4 Play / 3G / 512MB RAM', price: 7990 }
+        ]
+      },
+      {
+        id: 'p6',
+        name: 'Nokia Lumia 920',
+        category: 'smartphones',
+        variants: [
+          { label: 'Snapdragon S4 Plus / LTE 4G / 1GB RAM / PureView', price: 24990 }
+        ]
+      },
+      {
+        id: 'p7',
+        name: 'Nokia Lumia 1020',
+        category: 'smartphones',
+        variants: [
+          { label: 'Snapdragon S4 Plus / LTE 4G / 2GB RAM / Камера 41Мп', price: 26990 }
+        ]
+      },
+      {
+        id: 'p8',
+        name: 'Nokia Lumia 930',
+        category: 'smartphones',
+        variants: [
+          { label: 'Snapdragon 800 / LTE 4G / 2GB RAM / OLED', price: 29990 }
+        ]
+      },
+
+      // Планшеты и Ноутбуки
+      {
+        id: 'p9',
+        name: 'Microsoft Surface Pro 4',
+        category: 'tablets',
+        variants: [
+          { label: 'Core m3-6Y30 / Intel HD 515 / 4GB RAM / 128GB SSD', price: 69990 },
+          { label: 'Core i5-6300U / Intel HD 520 / 4GB RAM / 128GB SSD', price: 79990 },
+          { label: 'Core i5-6300U / Intel HD 520 / 8GB RAM / 256GB SSD', price: 99990 },
+          { label: 'Core i7-6650U / Intel Iris 540 / 16GB RAM / 512GB SSD', price: 149990 }
+        ]
+      },
+      {
+        id: 'p10',
+        name: 'Microsoft Surface 3',
+        category: 'tablets',
+        variants: [
+          { label: 'Atom x7-Z8700 / Intel HD / 2GB RAM / 64GB eMMC / Wi-Fi', price: 39990 },
+          { label: 'Atom x7-Z8700 / Intel HD / 4GB RAM / 128GB eMMC / LTE 4G', price: 49990 }
+        ]
+      },
+      {
+        id: 'p11',
+        name: 'Microsoft Surface Book (2015)',
+        category: 'tablets',
+        variants: [
+          { label: 'Core i5-6300U / Intel HD 520 / 8GB RAM / 128GB SSD', price: 119990 },
+          { label: 'Core i7-6600U / NVIDIA dGPU 1GB GDDR5 / 16GB RAM / 512GB SSD', price: 189990 }
+        ]
+      },
+
+      // Офис
+      {
+        id: 'p12',
+        name: 'Microsoft Office 2016 для дома и учебы',
+        category: 'office',
+        variants: [
+          { label: 'ПК, Бессрочная', price: 5190 }
+        ]
+      },
+      {
+        id: 'p13',
+        name: 'Microsoft Office 2016 для дома и бизнеса',
+        category: 'office',
+        variants: [
+          { label: 'ПК/Mac, Бессрочная', price: 17490 }
+        ]
+      },
+      {
+        id: 'p14',
+        name: 'Microsoft Office 365 Персональный',
+        category: 'office',
+        variants: [
+          { label: '1 год / 1 ПК + 1 Планшет', price: 2690 }
+        ]
+      },
+      {
+        id: 'p15',
+        name: 'Microsoft Office 365 Для дома',
+        category: 'office',
+        variants: [
+          { label: '1 год / 5 ПК + 5 Планшетов', price: 3390 }
+        ]
+      },
+
+      // Аксессуары
+      {
+        id: 'p16',
+        name: 'Чехол Mozo для Lumia 640/950',
+        category: 'accessories',
+        variants: [
+          { label: 'Натуральная кожа', price: 1990 }
+        ]
+      },
+      {
+        id: 'p17',
+        name: 'Беспроводная зарядка Nokia DT-900',
+        category: 'accessories',
+        variants: [
+          { label: 'Стандарт Qi', price: 2490 }
+        ]
+      },
+      {
+        id: 'p18',
+        name: 'Гарнитура Nokia WH-208',
+        category: 'accessories',
+        variants: [
+          { label: 'Внутриканальная', price: 990 }
+        ]
+      }
+    ];
+
+    // ----- STATE -----
+    let cart = [];               // { id, name, variantLabel, price, quantity }
+    let currentTab = 'smartphones';
+    let promoApplied = false;
+    let discountPercent = 0;     // 0 or 15
+    const DELIVERY_COURIER = 350;
+    const DELIVERY_PICKUP = 0;
+
+    // ----- DOM -----
+    const catalogEl = document.getElementById('catalogContainer');
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartCount = document.getElementById('cartCount');
+    const cartTotal = document.getElementById('cartTotal');
+    const promoInput = document.getElementById('promoInput');
+    const applyPromoBtn = document.getElementById('applyPromoBtn');
+    const promoMessage = document.getElementById('promoMessage');
+
+    const orderName = document.getElementById('orderName');
+    const orderPhone = document.getElementById('orderPhone');
+    const orderEmail = document.getElementById('orderEmail');
+    const orderBtn = document.getElementById('orderBtn');
+
+    const modalOverlay = document.getElementById('modalOverlay');
+    const orderIdDisplay = document.getElementById('orderIdDisplay');
+    const modalTotal = document.getElementById('modalTotal');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+    // ----- RENDER CATALOG -----
+    function renderCatalog(tab) {
+      const items = productDB.filter(p => p.category === tab);
+      if (!items.length) {
+        catalogEl.innerHTML = '<p style="grid-column:1/-1; padding:20px;">Товары не найдены</p>';
+        return;
+      }
+      let html = '';
+      items.forEach(p => {
+        const variantOptions = p.variants.map((v, idx) =>
+          `<option value="${idx}" data-price="${v.price}">${v.label} — ${v.price.toLocaleString('ru-RU')} ₽</option>`
+        ).join('');
+        const defaultPrice = p.variants[0].price;
+        html += `
+          <div class="product-tile" data-id="${p.id}">
+            <div class="product-image"></div>
+            <h4>${p.name}</h4>
+            <select class="variant-select" data-id="${p.id}">
+              ${variantOptions}
+            </select>
+            <div class="price" data-id="${p.id}">${defaultPrice.toLocaleString('ru-RU')} ₽</div>
+            <button class="add-to-cart" data-id="${p.id}" data-name="${p.name}">В корзину</button>
+          </div>
+        `;
+      });
+      catalogEl.innerHTML = html;
+
+      // Привязываем изменение цены к select
+      catalogEl.querySelectorAll('.variant-select').forEach(sel => {
+        sel.addEventListener('change', function() {
+          const id = this.dataset.id;
+          const priceEl = catalogEl.querySelector(`.price[data-id="${id}"]`);
+          const selected = this.options[this.selectedIndex];
+          const price = parseInt(selected.dataset.price, 10);
+          priceEl.textContent = price.toLocaleString('ru-RU') + ' ₽';
+        });
+      });
+
+      // Обработчики "В корзину"
+      catalogEl.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const id = this.dataset.id;
+          const name = this.dataset.name;
+          const tile = this.closest('.product-tile');
+          const select = tile.querySelector('.variant-select');
+          const selectedOption = select.options[select.selectedIndex];
+          const variantLabel = selectedOption.textContent.split('—')[0].trim();
+          const price = parseInt(selectedOption.dataset.price, 10);
+          addToCart(id, name, variantLabel, price);
+        });
+      });
+    }
+
+    // ----- CART: ADD -----
+    function addToCart(id, name, variantLabel, price) {
+      // Check if same product + same variant exists
+      const existing = cart.find(item => item.id === id && item.variantLabel === variantLabel);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ id, name, variantLabel, price, quantity: 1 });
+      }
+      renderCart();
+    }
+
+    // ----- CART: RENDER -----
+    function renderCart() {
+      if (!cart.length) {
+        cartItemsList.innerHTML = '<p style="color:#6b6b6b; font-size:0.9rem; padding:8px 0;">Корзина пуста</p>';
+        cartCount.textContent = '0';
+        cartTotal.textContent = '0 ₽';
+        return;
+      }
+
+      let html = '';
+      let subtotal = 0;
+      let totalItems = 0;
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+        totalItems += item.quantity;
+        html += `
+          <div class="cart-item" data-index="${index}">
+            <div class="info">
+              <div class="title">${item.name}</div>
+              <div class="variant">${item.variantLabel}</div>
+              <div>${item.price.toLocaleString('ru-RU')} ₽</div>
+            </div>
+            <div class="controls">
+              <button class="qty-dec" data-index="${index}">−</button>
+              <span class="qty">${item.quantity}</span>
+              <button class="qty-inc" data-index="${index}">+</button>
+              <button class="remove-btn" data-index="${index}">✕</button>
+            </div>
+          </div>
+        `;
+      });
+
+      cartItemsList.innerHTML = html;
+      cartCount.textContent = totalItems;
+
+      // Apply discount
+      let discountAmount = 0;
+      if (promoApplied && discountPercent > 0) {
+        discountAmount = Math.round(subtotal * (discountPercent / 100));
+      }
+      const finalSubtotal = subtotal - discountAmount;
+      const deliveryCost = getDeliveryCost();
+      const total = finalSubtotal + deliveryCost;
+
+      cartTotal.textContent = total.toLocaleString('ru-RU') + ' ₽';
+
+      // Event listeners for +/-/remove
+      document.querySelectorAll('.qty-inc').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const idx = parseInt(this.dataset.index, 10);
+          if (cart[idx]) {
+            cart[idx].quantity += 1;
+            renderCart();
+          }
+        });
+      });
+      document.querySelectorAll('.qty-dec').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const idx = parseInt(this.dataset.index, 10);
+          if (cart[idx] && cart[idx].quantity > 1) {
+            cart[idx].quantity -= 1;
+            renderCart();
+          } else if (cart[idx] && cart[idx].quantity === 1) {
+            cart.splice(idx, 1);
+            renderCart();
+            if (cart.length === 0) {
+              promoApplied = false;
+              discountPercent = 0;
+              promoMessage.textContent = '';
+              promoMessage.className = 'promo-message';
+            }
+          }
+        });
+      });
+      document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const idx = parseInt(this.dataset.index, 10);
+          cart.splice(idx, 1);
+          renderCart();
+          if (cart.length === 0) {
+            promoApplied = false;
+            discountPercent = 0;
+            promoMessage.textContent = '';
+            promoMessage.className = 'promo-message';
+          }
+        });
+      });
+    }
+
+    // ----- HELPERS -----
+    function getDeliveryCost() {
+      const selected = document.querySelector('input[name="delivery"]:checked');
+      return (selected && selected.value === 'courier') ? DELIVERY_COURIER : DELIVERY_PICKUP;
+    }
+
+    function calcFinalTotal() {
+      let subtotal = 0;
+      cart.forEach(item => subtotal += item.price * item.quantity);
+      let discount = 0;
+      if (promoApplied && discountPercent > 0) {
+        discount = Math.round(subtotal * (discountPercent / 100));
+      }
+      return subtotal - discount + getDeliveryCost();
+    }
+
+    // ----- PROMOCODE -----
+    function applyPromo() {
+      const code = promoInput.value.trim();
+      if (!code) {
+        promoMessage.textContent = 'Введите промокод';
+        promoMessage.className = 'promo-message error';
+        return;
+      }
+      if (promoApplied) {
+        promoMessage.textContent = 'Промокод уже применён';
+        promoMessage.className = 'promo-message error';
+        return;
+      }
+      if (code.toLowerCase() === 'neomarket') {
+        promoApplied = true;
+        discountPercent = 15;
+        promoMessage.textContent = 'Промокод neomarket успешно применен! Скидка 15%';
+        promoMessage.className = 'promo-message';
+        renderCart();
+      } else {
+        promoMessage.textContent = 'Неверный промокод';
+        promoMessage.className = 'promo-message error';
+      }
+    }
+
+    // ----- VALIDATION -----
+    function validateForm() {
+      let valid = true;
+      const name = orderName.value.trim();
+      const phone = orderPhone.value.trim();
+      const email = orderEmail.value.trim();
+
+      if (!name) { orderName.classList.add('error'); valid = false; } else orderName.classList.remove('error');
+      if (!phone || phone.length < 5) { orderPhone.classList.add('error'); valid = false; } else orderPhone.classList.remove('error');
+      if (!email || !email.includes('@')) { orderEmail.classList.add('error'); valid = false; } else orderEmail.classList.remove('error');
+
+      return valid;
+    }
+
+    function generateOrderNumber() {
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      return `№2016-${rand}`;
+    }
+
+    // ----- PLACE ORDER -----
+    function placeOrder() {
+      if (cart.length === 0) {
+        alert('Корзина пуста. Добавьте товары.');
+        return;
+      }
+      if (!validateForm()) {
+        return;
+      }
+      const finalTotal = calcFinalTotal();
+      const orderNumber = generateOrderNumber();
+      orderIdDisplay.textContent = `Заказ ${orderNumber}`;
+      modalTotal.textContent = `Сумма к оплате: ${finalTotal.toLocaleString('ru-RU')} руб.`;
+      modalOverlay.classList.add('show');
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('show');
+    }
+
+    // ----- EVENTS -----
+    // Tabs
+    document.querySelectorAll('#tabContainer button').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#tabContainer button').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentTab = this.dataset.tab;
+        renderCatalog(currentTab);
+      });
+    });
+
+    // Promo
+    applyPromoBtn.addEventListener('click', applyPromo);
+    promoInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') applyPromo(); });
+
+    // Delivery change -> recalc
+    document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+      radio.addEventListener('change', renderCart);
+    });
+
+    // Order button
+    orderBtn.addEventListener('click', placeOrder);
+
+    // Modal close
+    modalCloseBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', function(e) {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // Clear errors on input
+    [orderName, orderPhone, orderEmail].forEach(input => {
+      input.addEventListener('input', function() {
+        this.classList.remove('error');
+      });
+    });
+
+    // ----- INIT -----
+    renderCatalog('smartphones');
+    renderCart();
+  })();
+</script>
+</body>
+</html>
